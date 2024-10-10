@@ -1,0 +1,12 @@
+*.vcxproj
+*.filters
+*.user
+*.aps
+
+Debug/
+GeneratedFiles/
+Release/
+cmake-build-debug/
+.idea/
+.vs/
+.vscode/
