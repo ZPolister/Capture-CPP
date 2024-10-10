@@ -54,6 +54,11 @@ public slots:
 
 	void btnBrushClicked();
 
+    /**
+     * @brief uploadPicGo 上传图片到PicGo
+     */
+    void uploadPicGo();
+
 private:
 	void init();
 
@@ -130,6 +135,7 @@ private:
 	QPushButton *_btn_drawEllipse;
 	QPushButton *_btn_drawText;
 	QPushButton *_btn_brush;
+    QPushButton *_btn_uploadPicGo;
 	QLabel *_label;
 
 	QList<LinePaint> _line_list;

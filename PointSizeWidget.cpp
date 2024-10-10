@@ -1,4 +1,4 @@
-#include "PointSizeWidget.h"
+ï»¿#include "PointSizeWidget.h"
 #include <QPainter>
 #include <QWheelEvent>
 
@@ -48,7 +48,7 @@ void PointSizeWidget::paintEvent(QPaintEvent *event)
 	QPainter painter(this);
 	painter.setBrush(QBrush(Qt::white));
 	painter.setPen(QPen(Qt::white));
-	painter.setRenderHint(QPainter::Antialiasing, true); //ÉèÖÃäÖÈ¾ÌáÊ¾ÎªÏû³ı¾â³İ
+	painter.setRenderHint(QPainter::Antialiasing, true); //è®¾ç½®æ¸²æŸ“æç¤ºä¸ºæ¶ˆé™¤é”¯é½¿
 	int radius = _point_size * 0.7;
 	radius < 2 ? radius = 2 : radius;
 	painter.drawEllipse(_ptCenter, radius, radius);

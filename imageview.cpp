@@ -5,6 +5,7 @@
 #include <QScrollBar>
 #include "QPainter"
 #include <QGraphicsDropShadowEffect>
+#include <QPainterPath>
 
 #define EPS 1.0e-6
 const int kShadowBorderWidth = 6;
@@ -127,14 +128,14 @@ void ImageView::paintEvent(QPaintEvent *event)
 
 	QColor color(30 ,144 ,255);
 
-    // for (int i = 0; i < kShadowBorderWidth; i++)
-    // {
-    // 	QPainterPath path;
-    // 	path.setFillRule(Qt::WindingFill);
-    // 	path.addRect(kShadowBorderWidth - i, kShadowBorderWidth - i,
-    // 		this->width() - (kShadowBorderWidth - i) * 2, this->height() - (kShadowBorderWidth - i) * 2);
-    // 	color.setAlpha(50 - i * 10);
-    // 	painter.setPen(color);
-    // 	painter.drawPath(path);
-    // }
+    for (int i = 0; i < kShadowBorderWidth; i++)
+    {
+        QPainterPath path;
+        path.setFillRule(Qt::WindingFill);
+        path.addRect(kShadowBorderWidth - i, kShadowBorderWidth - i,
+            this->width() - (kShadowBorderWidth - i) * 2, this->height() - (kShadowBorderWidth - i) * 2);
+        color.setAlpha(50 - i * 10);
+        painter.setPen(color);
+        painter.drawPath(path);
+    }
 }

@@ -20,7 +20,7 @@ public:
 
 private:
 	QPen _pen;
-	QBrush _brush;
+    QBrush _brush;
 };
 
 #endif // RECTPAINT_H

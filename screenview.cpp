@@ -14,6 +14,13 @@
 #include <QLabel>
 #include <QColorDialog>
 #include <QSplitter>
+#include <QUrl>
+#include <QNetworkRequest>
+#include <QNetworkAccessManager>
+#include <QJsonParseError>
+#include <QNetworkReply>
+#include <QJsonObject>
+#include <QJsonArray>
 #include "imageview.h"
 
 static const QString s_normalStyle = QStringLiteral("QPushButton:hover{background-color: rgb(204, 206, 219);border:none;color:rgb(255, 255, 255);}");
@@ -204,6 +211,51 @@ void ScreenView::drawLine()
 		_btn_drawLine->setStyleSheet(s_normalStyle);
 		hideColorBar();
 	}
+}
+
+void ScreenView::uploadPicGo() {
+    screenCapture(_shortArea);
+    _clipboard->setPixmap(_shotPixmap);
+
+    QNetworkAccessManager netManager;
+
+    QString url = "http://localhost:36677/upload";
+    QNetworkRequest request = QNetworkRequest(QUrl(url));
+    QByteArray responseData;
+    QEventLoop eventLoop;
+    connect(&netManager , SIGNAL(finished(QNetworkReply*)), &eventLoop, SLOT(quit()));
+    QNetworkReply* initReply = netManager.post(request, QString("").toUtf8());
+    eventLoop.exec();
+    responseData = initReply->readAll();
+    qDebug() << responseData;
+
+    // 解析json
+    QString imageUrl;
+    QJsonParseError json_error;
+    QJsonDocument doucment = QJsonDocument::fromJson(responseData, &json_error);
+    if (json_error.error == QJsonParseError::NoError) {
+        if (doucment.isObject()) {
+            const QJsonObject object_data = doucment.object();
+            qDebug() << object_data;
+            if (object_data.contains("success") && object_data.value("success").toBool())
+            {
+                QJsonArray jsonArray = object_data.value("result").toArray();
+                imageUrl = jsonArray.at(0).toString();
+            }
+            else
+            {
+                qDebug() << "上传失败";
+            }
+        }
+    } else {
+        qDebug() << "failed upload";
+    }
+
+    _clipboard->setText(imageUrl);
+    qDebug() << imageUrl;
+
+    this->close();
+
 }
 
 void ScreenView::drawRect()
@@ -501,6 +553,7 @@ void ScreenView::initToolBar()
 	_btn_drawRect = new QPushButton();
 	_btn_drawEllipse = new QPushButton();
 	_btn_drawText = new QPushButton();
+    _btn_uploadPicGo = new QPushButton();
 	
 	_btn_copy->setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 	_btn_save->setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -508,6 +561,7 @@ void ScreenView::initToolBar()
 	_btn_drawRect->setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 	_btn_drawEllipse->setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 	_btn_drawText->setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+    _btn_uploadPicGo->setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 
 	_btn_copy->setIcon(QPixmap(":/image/copy.png"));
 	_btn_save->setIcon(QPixmap(":/image/save.png"));
@@ -515,6 +569,7 @@ void ScreenView::initToolBar()
 	_btn_drawRect->setIcon(QPixmap(":/image/drawrect.png"));
 	_btn_drawEllipse->setIcon(QPixmap(":/image/drawellipse.png"));
 	_btn_drawText->setIcon(QPixmap(":/image/drawtext.png"));
+    _btn_uploadPicGo->setIcon(QPixmap(":/image/mail.ico"));
 	
 	_btn_copy->setToolTip(QStringLiteral("复制到剪贴板"));
 	_btn_save->setToolTip(QStringLiteral("保存到文件"));
@@ -522,6 +577,7 @@ void ScreenView::initToolBar()
 	_btn_drawRect->setToolTip(QStringLiteral("绘制矩形"));
 	_btn_drawEllipse->setToolTip(QStringLiteral("绘制椭圆"));
 	_btn_drawText->setToolTip(QStringLiteral("添加文本"));
+    _btn_uploadPicGo->setToolTip(QStringLiteral("上传到PicGo"));
 
 	_toolbar->setStyleSheet("border:none;background-color: rgb(255, 255, 255);");
 	_btn_copy->setStyleSheet(s_normalStyle);
@@ -530,12 +586,14 @@ void ScreenView::initToolBar()
 	_btn_drawRect->setStyleSheet(s_normalStyle);
 	_btn_drawEllipse->setStyleSheet(s_normalStyle);
 	_btn_drawText->setStyleSheet(s_normalStyle);
+    _btn_uploadPicGo->setStyleSheet(s_normalStyle);
 	
 	mainToolBarLayout->addWidget(_btn_drawLine);
 	mainToolBarLayout->addWidget(_btn_drawRect);
 	mainToolBarLayout->addWidget(_btn_drawEllipse);
 	mainToolBarLayout->addWidget(_btn_drawText);
 	mainToolBarLayout->addWidget(_btn_save);
+    mainToolBarLayout->addWidget(_btn_uploadPicGo);
 	mainToolBarLayout->addWidget(_btn_copy);
 
 	mainToolBarLayout->setContentsMargins(0, 0, 0, 0);
@@ -547,6 +605,7 @@ void ScreenView::initToolBar()
 	connect(_btn_drawRect, SIGNAL(clicked()), this, SLOT(drawRect()));
 	connect(_btn_drawEllipse, SIGNAL(clicked()), this, SLOT(drawEllipse()));
 	connect(_btn_drawText, SIGNAL(clicked()), this, SLOT(drawTextStatus()));
+    connect(_btn_uploadPicGo, SIGNAL(clicked()), this, SLOT(uploadPicGo()));
 
 	_toolbar->setCursor(Qt::ArrowCursor);
 	_toolbar->setLayout(mainToolBarLayout);
