@@ -385,6 +385,7 @@ void ScreenView::init()
 	_screen_width = screenGeometry.width();
 	_screen_height = screenGeometry.height();
 	_clipboard = QApplication::clipboard();   //获取系统剪贴板指针
+
 }
 
 void ScreenView::initColorBar()
@@ -554,6 +555,7 @@ void ScreenView::initToolBar()
 	_btn_drawEllipse = new QPushButton();
 	_btn_drawText = new QPushButton();
     _btn_uploadPicGo = new QPushButton();
+    _btn_ocr = new QPushButton();
 	
 	_btn_copy->setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 	_btn_save->setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -562,6 +564,7 @@ void ScreenView::initToolBar()
 	_btn_drawEllipse->setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 	_btn_drawText->setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     _btn_uploadPicGo->setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+    _btn_ocr->setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 
 	_btn_copy->setIcon(QPixmap(":/image/copy.png"));
 	_btn_save->setIcon(QPixmap(":/image/save.png"));
@@ -570,6 +573,7 @@ void ScreenView::initToolBar()
 	_btn_drawEllipse->setIcon(QPixmap(":/image/drawellipse.png"));
 	_btn_drawText->setIcon(QPixmap(":/image/drawtext.png"));
     _btn_uploadPicGo->setIcon(QPixmap(":/image/mail.ico"));
+    _btn_ocr->setIcon(QPixmap(":/image/title.png"));
 	
 	_btn_copy->setToolTip(QStringLiteral("复制到剪贴板"));
 	_btn_save->setToolTip(QStringLiteral("保存到文件"));
@@ -578,6 +582,7 @@ void ScreenView::initToolBar()
 	_btn_drawEllipse->setToolTip(QStringLiteral("绘制椭圆"));
 	_btn_drawText->setToolTip(QStringLiteral("添加文本"));
     _btn_uploadPicGo->setToolTip(QStringLiteral("上传到PicGo"));
+    _btn_ocr->setToolTip(QStringLiteral("提取文字"));
 
 	_toolbar->setStyleSheet("border:none;background-color: rgb(255, 255, 255);");
 	_btn_copy->setStyleSheet(s_normalStyle);
@@ -587,14 +592,17 @@ void ScreenView::initToolBar()
 	_btn_drawEllipse->setStyleSheet(s_normalStyle);
 	_btn_drawText->setStyleSheet(s_normalStyle);
     _btn_uploadPicGo->setStyleSheet(s_normalStyle);
+    _btn_ocr->setStyleSheet(s_normalStyle);
 	
 	mainToolBarLayout->addWidget(_btn_drawLine);
 	mainToolBarLayout->addWidget(_btn_drawRect);
 	mainToolBarLayout->addWidget(_btn_drawEllipse);
 	mainToolBarLayout->addWidget(_btn_drawText);
+    mainToolBarLayout->addWidget(_btn_ocr);
 	mainToolBarLayout->addWidget(_btn_save);
     mainToolBarLayout->addWidget(_btn_uploadPicGo);
 	mainToolBarLayout->addWidget(_btn_copy);
+
 
 	mainToolBarLayout->setContentsMargins(0, 0, 0, 0);
 	mainToolBarLayout->setSpacing(0);
@@ -606,6 +614,7 @@ void ScreenView::initToolBar()
 	connect(_btn_drawEllipse, SIGNAL(clicked()), this, SLOT(drawEllipse()));
 	connect(_btn_drawText, SIGNAL(clicked()), this, SLOT(drawTextStatus()));
     connect(_btn_uploadPicGo, SIGNAL(clicked()), this, SLOT(uploadPicGo()));
+    connect(_btn_ocr, SIGNAL(clicked()), this, SLOT(ocrText()));
 
 	_toolbar->setCursor(Qt::ArrowCursor);
 	_toolbar->setLayout(mainToolBarLayout);
@@ -804,6 +813,73 @@ void ScreenView::adjustShotScreen(QMouseEvent *event)
 
 	_shortArea.setTopLeft(pt_tl);
 	_shortArea.setBottomRight(pt_br);
+}
+
+void ScreenView::ocrText() {
+    screenCapture(_shortArea);
+    QDateTime current_date_time = QDateTime::currentDateTime();
+    QString current_date = current_date_time.toString("yyyyMMdd_hhmmss");
+    QString imageName = ".temp_" + current_date + ".jpg";
+    _shotPixmap.save(imageName);
+
+    QDir currentDir = QDir::current();
+    QString imagePath = currentDir.absoluteFilePath(imageName);
+
+
+    QNetworkAccessManager netManager;
+
+    QString url = "http://localhost:36680/check";
+    QNetworkRequest request = QNetworkRequest(QUrl(url));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    QJsonObject json;
+    json["path"] = imagePath;
+    QJsonDocument doc(json);
+    QByteArray jsonData = doc.toJson();
+
+    QByteArray responseData;
+    QEventLoop eventLoop;
+    connect(&netManager, SIGNAL(finished(QNetworkReply * )), &eventLoop, SLOT(quit()));
+    QNetworkReply *initReply = netManager.post(request, jsonData);
+    eventLoop.exec();
+    responseData = initReply->readAll();
+    qDebug() << responseData;
+
+    // 解析json
+    QJsonParseError json_error;
+    QJsonDocument doucment = QJsonDocument::fromJson(responseData, &json_error);
+    if (json_error.error == QJsonParseError::NoError) {
+        if (doucment.isObject()) {
+            const QJsonObject object_data = doucment.object();
+            qDebug() << object_data;
+            if (object_data.contains("success") && object_data.value("success").toBool()) {
+                QStringList stringList;
+                QJsonArray jsonArray = object_data.value("result").toArray();
+                for (const QJsonValue &value: jsonArray) {
+                    if (value.isString()) {
+                        stringList.append(value.toString());
+                    }
+                }
+
+                qDebug() << stringList;
+
+
+                this->setWindowFlags(this->windowFlags() & ~Qt::WindowStaysOnTopHint);
+                this->hide();
+                // resultWindow->setWindowFlags(resultWindow->windowFlags() | Qt::WindowStaysOnTopHint);
+                // resultWindow->show();
+
+                if (QFile::exists(imagePath)) {
+                    // 尝试删除文件
+                    if (QFile::remove(imagePath)) {
+                        qDebug() << "File deleted successfully:" << imagePath;
+                    } else {
+                        qDebug() << "Failed to delete file:" << imagePath;
+                    }
+                }
+            }
+        }
+    }
 }
 
 void ScreenView::drawText(QMouseEvent *event)

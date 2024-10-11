@@ -10,6 +10,7 @@
 #include "TextPaint.h"
 #include "ColorItem.h"
 #include "PointSizeWidget.h"
+#include "ResultWindow.h"
 
 typedef RectPaint EllipsePaint;
 
@@ -58,6 +59,11 @@ public slots:
      * @brief uploadPicGo 上传图片到PicGo
      */
     void uploadPicGo();
+
+    /**
+     * @brief ocrText ocr识别文字
+     */
+    void ocrText();
 
 private:
 	void init();
@@ -136,6 +142,7 @@ private:
 	QPushButton *_btn_drawText;
 	QPushButton *_btn_brush;
     QPushButton *_btn_uploadPicGo;
+    QPushButton *_btn_ocr;
 	QLabel *_label;
 
 	QList<LinePaint> _line_list;
@@ -150,6 +157,7 @@ private:
 
 	bool _bIsDrawLineEnd;//判断当前绘制线段是否结束
 	bool _bIsBrushed;//判断当前是否填充模式
+
 };
 
 #endif // SCREENVIEW_H
