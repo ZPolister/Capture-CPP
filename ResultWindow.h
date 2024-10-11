@@ -2,18 +2,15 @@
 #define RESULTWINDOW_H
 #include <QApplication>
 #include <QWidget>
+#include <QDialog>
 #include <QVBoxLayout>
 #include <QListWidget>
 #include <QStringList>
 #include <QPushButton>
 
-class ResultWindow : public QWidget {
+class ResultWindow : public QDialog {
 public:
-    ResultWindow(QWidget*);
-    void setText(const QStringList&);
-    QVBoxLayout* layout;
-    QListWidget* listWidget;
-    QPushButton* closeButton;
+    ResultWindow(const QString& text, QWidget *parent = nullptr);
 };
 
 #endif // RESULTWINDOW_H

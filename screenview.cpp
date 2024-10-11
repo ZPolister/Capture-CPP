@@ -21,6 +21,8 @@
 #include <QNetworkReply>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QMessageBox>
+#include "ResultWindow.h"
 #include "imageview.h"
 
 static const QString s_normalStyle = QStringLiteral("QPushButton:hover{background-color: rgb(204, 206, 219);border:none;color:rgb(255, 255, 255);}");
@@ -861,23 +863,20 @@ void ScreenView::ocrText() {
                     }
                 }
 
-                qDebug() << stringList;
+                ResultWindow resultWindow(QString(stringList.join("\n")), this);
+                resultWindow.exec();
 
-
-                this->setWindowFlags(this->windowFlags() & ~Qt::WindowStaysOnTopHint);
-                this->hide();
-                // resultWindow->setWindowFlags(resultWindow->windowFlags() | Qt::WindowStaysOnTopHint);
-                // resultWindow->show();
-
-                if (QFile::exists(imagePath)) {
-                    // 尝试删除文件
-                    if (QFile::remove(imagePath)) {
-                        qDebug() << "File deleted successfully:" << imagePath;
-                    } else {
-                        qDebug() << "Failed to delete file:" << imagePath;
-                    }
-                }
+                this->show();
             }
+        }
+    }
+
+    if (QFile::exists(imagePath)) {
+        // 删除临时文件
+        if (QFile::remove(imagePath)) {
+            qDebug() << "File deleted successfully:" << imagePath;
+        } else {
+            qDebug() << "Failed to delete file:" << imagePath;
         }
     }
 }
