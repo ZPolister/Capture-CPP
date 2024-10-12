@@ -1,13 +1,9 @@
 <RCC>
     <qresource prefix="/">
-        <file>image/ZORO.ico</file>
-        <file>image/LUFFY.ico</file>
-        <file>image/BROOK.ico</file>
         <file>image/comp.ico</file>
         <file>image/mail.ico</file>
         <file>image/add.ico</file>
         <file>image/remove.ico</file>
-        <file>image/title.ico</file>
         <file>image/add.png</file>
         <file>image/remove.png</file>
         <file>image/title.png</file>
