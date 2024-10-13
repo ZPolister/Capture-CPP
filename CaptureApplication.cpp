@@ -63,7 +63,7 @@ void CaptureApplication::languageTranslate()
 {
 	m_prefer->setText(tr("Preference"));
 	m_quit->setText(tr("Quit"));
-	m_tray->setToolTip(tr("Snappit\nscreenshots:F1"));
+    m_tray->setToolTip(tr("Dian-capture\nscreenshots:F1"));
 }
 
 CaptureApplication::~CaptureApplication()

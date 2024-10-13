@@ -623,14 +623,14 @@ void ScreenView::initToolBar()
     _btn_ocr->setIconSize(QSize(32, 32));
 
 	
-	_btn_copy->setToolTip(QStringLiteral("复制到剪贴板"));
-	_btn_save->setToolTip(QStringLiteral("保存到文件"));
-	_btn_drawLine->setToolTip(QStringLiteral("绘制线段"));
-	_btn_drawRect->setToolTip(QStringLiteral("绘制矩形"));
-	_btn_drawEllipse->setToolTip(QStringLiteral("绘制椭圆"));
-	_btn_drawText->setToolTip(QStringLiteral("添加文本"));
-    _btn_uploadPicGo->setToolTip(QStringLiteral("上传到PicGo"));
-    _btn_ocr->setToolTip(QStringLiteral("提取文字"));
+    _btn_copy->setToolTip(QStringLiteral("复制到剪贴板(Enter)"));
+    _btn_save->setToolTip(QStringLiteral("保存到文件(S)"));
+    _btn_drawLine->setToolTip(QStringLiteral("绘制线段(L)"));
+    _btn_drawRect->setToolTip(QStringLiteral("绘制矩形(P)"));
+    _btn_drawEllipse->setToolTip(QStringLiteral("绘制椭圆(M)"));
+    _btn_drawText->setToolTip(QStringLiteral("添加文本(T)"));
+    _btn_uploadPicGo->setToolTip(QStringLiteral("上传到PicGo(U)"));
+    _btn_ocr->setToolTip(QStringLiteral("提取文字(O)"));
 
     _toolbar->setStyleSheet(toolbar_Style);
 	_btn_copy->setStyleSheet(s_normalStyle);
@@ -1043,7 +1043,9 @@ void ScreenView::mousePressEvent(QMouseEvent *event)
 				_ptS.setY(-10);
 				_bIsDrawLineEnd = true;
 			}
-		}
+        } else {
+            this->close();
+        }
 	}
 	else if (event->button() &Qt::MiddleButton)
 	{
@@ -1167,10 +1169,24 @@ void ScreenView::mouseReleaseEvent(QMouseEvent *event)
 
 void ScreenView::keyPressEvent(QKeyEvent *event)
 {
-	if (event->key() == Qt::Key_Escape)
+    if (event->key() == Qt::Key_Escape)
 		close();
-
-	QWidget::keyPressEvent(event);
+    else if (event->key() == Qt::Key_Return)
+        this->copyImage();
+    else if (event->key() == Qt::Key_S)
+        this->saveImage();
+    else if (event->key() == Qt::Key_U)
+        this->uploadPicGo();
+    else if (event->key() == Qt::Key_O)
+        this->ocrText();
+    else if (event->key() == Qt::Key_P)
+        this->drawRect();
+    else if (event->key() == Qt::Key_L)
+        this->drawLine();
+    else if (event->key() == Qt::Key_M)
+        this->drawEllipse();
+    else
+        QWidget::keyPressEvent(event);
 }
 
 void ScreenView::paintEvent(QPaintEvent *event)
