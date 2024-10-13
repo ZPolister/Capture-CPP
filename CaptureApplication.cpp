@@ -1,4 +1,5 @@
 ﻿#include "CaptureApplication.h"
+#include "qdebug.h"
 #include "screenview.h"
 #include <QFileDialog>
 #include <QScreen>
@@ -165,3 +166,12 @@ void CaptureApplication::closeEvent(QCloseEvent *event)
 		event->ignore(); //忽略事件
 	}
 }
+
+void CaptureApplication::on_checkBox_stateChanged(int arg1)
+{
+    qDebug() << arg1;
+    copyWithMd = arg1 == 2;
+}
+
+bool copyWithMd = true;
+

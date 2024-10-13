@@ -29,6 +29,9 @@ protected:
 	void hideEvent(QHideEvent *event)     Q_DECL_OVERRIDE;
 	void closeEvent(QCloseEvent *event)	  Q_DECL_OVERRIDE;
 
+private slots:
+    void on_checkBox_stateChanged(int arg1);
+
 private:
     Ui::CaptureApplication ui;
 	std::vector<ImageView *> _arr_imgView;
@@ -39,5 +42,7 @@ private:
 	QAction *m_quit;
 	QTranslator *m_translator;
 };
+
+extern bool copyWithMd;
 
 #endif // CAPTURE_APPLICATION_H

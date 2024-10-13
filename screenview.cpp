@@ -23,6 +23,7 @@
 #include <QJsonArray>
 #include <QMessageBox>
 #include <QProgressDialog>
+#include "CaptureApplication.h"
 #include "ResultWindow.h"
 #include "imageview.h"
 
@@ -237,7 +238,7 @@ void ScreenView::uploadPicGo() {
     QNetworkReply* initReply = netManager.post(request, QString("").toUtf8());
     eventLoop.exec();
     responseData = initReply->readAll();
-    qDebug() << responseData;
+    // qDebug() << responseData;
 
     // 解析json
     QString imageUrl;
@@ -261,6 +262,10 @@ void ScreenView::uploadPicGo() {
         qDebug() << "failed upload";
     }
 
+    // 打开了复制为md格式，构造md
+    if (copyWithMd) {
+        imageUrl = "![](" + imageUrl + ")";
+    }
     _clipboard->setText(imageUrl);
     qDebug() << imageUrl;
 
