@@ -26,10 +26,13 @@ CaptureApplication::CaptureApplication(QWidget *parent)
 	ui.setupUi(this);
 	_file_path = QStringLiteral(".");
 
-	m_tray = new QSystemTrayIcon(QIcon(":/image/main.ico"), this);
-	m_tray->setToolTip(tr("Snappit\nscreenshots:F1"));
+    m_tray = new QSystemTrayIcon(QIcon(":/image/main.ico"), this);
+    m_tray->setToolTip(tr("Dian=\nscreenshots:F1"));
 	m_tray->show();
-	m_tray->showMessage(QStringLiteral(""), QStringLiteral("Snappit"));
+    QIcon messageIcon(":/image/main.ico");
+    m_tray->showMessage(QStringLiteral(""), QStringLiteral("Dian-capture\n"
+                                                           "截屏:F1\n"
+                                                           "贴图:鼠标中键"));
 
 	m_trayMenu = new QMenu(this);
 	m_prefer = new QAction(tr("Preference"), m_trayMenu);
@@ -40,11 +43,11 @@ CaptureApplication::CaptureApplication(QWidget *parent)
 
 	QStringList languages;
 	languages << QStringLiteral("中文") << QStringLiteral("English");
-	ui.comboBox_langue->addItems(languages);
+    ui.comboBox_langue->addItems(languages);
 	
 	QxtGlobalShortcut* shortcut = new QxtGlobalShortcut(this);
 	if(!shortcut->setShortcut(QKeySequence(QLatin1String("F1"))))
-		m_tray->showMessage(tr("Error"), tr("register shorcut F1 failed"), QSystemTrayIcon::Critical);
+        m_tray->showMessage(tr("Error"), tr("register shorcut F1 failed"), QSystemTrayIcon::Critical);
 
 	connect(shortcut, &QxtGlobalShortcut::activated, this, &CaptureApplication::screenShotCut);
 	connect(ui.pushButton_open,     &QPushButton::clicked, this, &CaptureApplication::openImage);

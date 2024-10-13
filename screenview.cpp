@@ -25,10 +25,17 @@
 #include "ResultWindow.h"
 #include "imageview.h"
 
-static const QString s_normalStyle = QStringLiteral("QPushButton:hover{background-color: rgb(204, 206, 219);border:none;color:rgb(255, 255, 255);}");
-static const QString s_pressStyle  = QStringLiteral("border:none;background-color:rgb(0, 122, 204);");
-static const QString s_brushStyle = QStringLiteral("border:none;background-color:rgb(255, 255, 255);");
-const QPen penScreenShotBound = QPen(Qt::cyan, 5, Qt::SolidLine);
+static const QString s_normalStyle = QStringLiteral(
+    "QPushButton { background-color: rgb(255, 255, 255);  margin: 5px;border-radius:10px;}"
+    "QPushButton:hover { background-color: #F5F5F5;margin: 5px; color: rgb(0, 0, 0);border: 1px solid #DCDCDC;border-radius:10px; }"
+    "QPushButton:pressed { background-color: #F5F5F5;margin: 5px; color: rgb(255, 255, 255);border: 1px solid #DCDCDC;border-radius:10px; }"
+    );
+static const QString s_pressStyle  = QStringLiteral("margin: 5px;border: 1px solid #DCDCDC;background-color:#F5F5F5;border-radius:10px;");
+static const QString s_brushStyle = QStringLiteral(    "QPushButton { background-color: rgb(255, 255, 255);  margin: 5px;border-radius:10px;}"
+    "QPushButton:hover { background-color: #F5F5F5;margin: 5px; color: rgb(0, 0, 0);border: 1px solid #DCDCDC;border-radius:10px; }"
+    "QPushButton:pressed { background-color: #F5F5F5;margin: 5px; color: rgb(255, 255, 255);border: 1px solid #DCDCDC;border-radius:10px; }");
+static const QString toolbar_Style = QStringLiteral("background-color:rgb(255, 255, 255); border-radius:10px;");
+const QPen penScreenShotBound = QPen(Qt::gray, 5, Qt::SolidLine);
 
 ScreenView::ScreenView(QWidget *parent)
 	: QWidget(parent)
@@ -389,117 +396,134 @@ void ScreenView::init()
 	_clipboard = QApplication::clipboard();   //获取系统剪贴板指针
 
 }
-
+// 初始化颜色条
 void ScreenView::initColorBar()
 {
-	_colorbar = new QWidget(this);
-	ColorItem *coloritem1_1 = new ColorItem(QColor(0, 0, 0));
-	ColorItem *coloritem1_2 = new ColorItem(QColor(127, 127, 127));
-	ColorItem *coloritem1_3 = new ColorItem(QColor(136, 0, 21));
-	ColorItem *coloritem1_4 = new ColorItem(QColor(237, 28, 36));
-	ColorItem *coloritem1_5 = new ColorItem(QColor(255, 127, 39));
-	ColorItem *coloritem1_6 = new ColorItem(QColor(255, 242, 0));
-	ColorItem *coloritem1_7 = new ColorItem(QColor(34, 177, 76));
-	ColorItem *coloritem1_8 = new ColorItem(QColor(0, 162, 232));
-	ColorItem *coloritem1_9 = new ColorItem(QColor(63, 72, 204));
-	ColorItem *coloritem1_10 = new ColorItem(QColor(163, 73, 164));
-	QHBoxLayout *hBoxLayout1 = new QHBoxLayout();
-	hBoxLayout1->addWidget(coloritem1_1);
-	hBoxLayout1->addWidget(coloritem1_2);
-	hBoxLayout1->addWidget(coloritem1_3);
-	hBoxLayout1->addWidget(coloritem1_4);
-	hBoxLayout1->addWidget(coloritem1_5);
-	hBoxLayout1->addWidget(coloritem1_6);
-	hBoxLayout1->addWidget(coloritem1_7);
-	hBoxLayout1->addWidget(coloritem1_8);
-	hBoxLayout1->addWidget(coloritem1_9);
-	hBoxLayout1->addWidget(coloritem1_10);
-	hBoxLayout1->setMargin(2);
-	hBoxLayout1->setSpacing(2);
+    _colorbar = new QWidget(this); // 创建颜色条的主窗口
 
-	connect(coloritem1_1,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
-	connect(coloritem1_2,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
-	connect(coloritem1_3,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
-	connect(coloritem1_4,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
-	connect(coloritem1_5,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
-	connect(coloritem1_6,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
-	connect(coloritem1_7,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
-	connect(coloritem1_8,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
-	connect(coloritem1_9,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
-	connect(coloritem1_10, SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
+    // 创建第一组颜色项
+    ColorItem *coloritem1_1 = new ColorItem(QColor(0, 0, 0));
+    ColorItem *coloritem1_2 = new ColorItem(QColor(127, 127, 127));
+    ColorItem *coloritem1_3 = new ColorItem(QColor(136, 0, 21));
+    ColorItem *coloritem1_4 = new ColorItem(QColor(237, 28, 36));
+    ColorItem *coloritem1_5 = new ColorItem(QColor(255, 127, 39));
+    ColorItem *coloritem1_6 = new ColorItem(QColor(255, 242, 0));
+    ColorItem *coloritem1_7 = new ColorItem(QColor(34, 177, 76));
+    ColorItem *coloritem1_8 = new ColorItem(QColor(0, 162, 232));
+    ColorItem *coloritem1_9 = new ColorItem(QColor(63, 72, 204));
+    ColorItem *coloritem1_10 = new ColorItem(QColor(163, 73, 164));
+    QHBoxLayout *hBoxLayout1 = new QHBoxLayout(); // 创建第一个水平布局
 
-	ColorItem *coloritem2_1 = new ColorItem(QColor(255, 255, 255));
-	ColorItem *coloritem2_2 = new ColorItem(QColor(195, 195, 195));
-	ColorItem *coloritem2_3 = new ColorItem(QColor(185, 122, 87));
-	ColorItem *coloritem2_4 = new ColorItem(QColor(255, 174, 201));
-	ColorItem *coloritem2_5 = new ColorItem(QColor(255, 201, 14));
-	ColorItem *coloritem2_6 = new ColorItem(QColor(239, 228, 176));
-	ColorItem *coloritem2_7 = new ColorItem(QColor(181, 230, 29));
-	ColorItem *coloritem2_8 = new ColorItem(QColor(153, 217, 234));
-	ColorItem *coloritem2_9 = new ColorItem(QColor(112, 146, 190));
-	ColorItem *coloritem2_10 = new ColorItem(QColor(200, 191, 231));
-	QHBoxLayout *hBoxLayout2 = new QHBoxLayout();
-	hBoxLayout2->addWidget(coloritem2_1);
-	hBoxLayout2->addWidget(coloritem2_2);
-	hBoxLayout2->addWidget(coloritem2_3);
-	hBoxLayout2->addWidget(coloritem2_4);
-	hBoxLayout2->addWidget(coloritem2_5);
-	hBoxLayout2->addWidget(coloritem2_6);
-	hBoxLayout2->addWidget(coloritem2_7);
-	hBoxLayout2->addWidget(coloritem2_8);
-	hBoxLayout2->addWidget(coloritem2_9);
-	hBoxLayout2->addWidget(coloritem2_10);
-	hBoxLayout2->setMargin(2);
-	hBoxLayout2->setSpacing(2);
+    // 添加颜色项到布局
+    hBoxLayout1->addWidget(coloritem1_1);
+    hBoxLayout1->addWidget(coloritem1_2);
+    hBoxLayout1->addWidget(coloritem1_3);
+    hBoxLayout1->addWidget(coloritem1_4);
+    hBoxLayout1->addWidget(coloritem1_5);
+    hBoxLayout1->addWidget(coloritem1_6);
+    hBoxLayout1->addWidget(coloritem1_7);
+    hBoxLayout1->addWidget(coloritem1_8);
+    hBoxLayout1->addWidget(coloritem1_9);
+    hBoxLayout1->addWidget(coloritem1_10);
+    hBoxLayout1->setMargin(2); // 设置边距
+    hBoxLayout1->setSpacing(2); // 设置间距
 
-	connect(coloritem2_1,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
-	connect(coloritem2_2,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
-	connect(coloritem2_3,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
-	connect(coloritem2_4,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
-	connect(coloritem2_5,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
-	connect(coloritem2_6,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
-	connect(coloritem2_7,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
-	connect(coloritem2_8,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
-	connect(coloritem2_9,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
-	connect(coloritem2_10, SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
+    // 连接颜色项的点击信号到处理函数
+    connect(coloritem1_1,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
+    connect(coloritem1_2,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
+    connect(coloritem1_3,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
+    connect(coloritem1_4,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
+    connect(coloritem1_5,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
+    connect(coloritem1_6,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
+    connect(coloritem1_7,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
+    connect(coloritem1_8,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
+    connect(coloritem1_9,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
+    connect(coloritem1_10, SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
 
-	QVBoxLayout *vBoxLayout = new QVBoxLayout();
-	vBoxLayout->setMargin(1);
-	vBoxLayout->setSpacing(0);
-	vBoxLayout->addLayout(hBoxLayout1);
-	vBoxLayout->addLayout(hBoxLayout2);
+    // 创建第二组颜色项
+    ColorItem *coloritem2_1 = new ColorItem(QColor(255, 255, 255));
+    ColorItem *coloritem2_2 = new ColorItem(QColor(195, 195, 195));
+    ColorItem *coloritem2_3 = new ColorItem(QColor(185, 122, 87));
+    ColorItem *coloritem2_4 = new ColorItem(QColor(255, 174, 201));
+    ColorItem *coloritem2_5 = new ColorItem(QColor(255, 201, 14));
+    ColorItem *coloritem2_6 = new ColorItem(QColor(239, 228, 176));
+    ColorItem *coloritem2_7 = new ColorItem(QColor(181, 230, 29));
+    ColorItem *coloritem2_8 = new ColorItem(QColor(153, 217, 234));
+    ColorItem *coloritem2_9 = new ColorItem(QColor(112, 146, 190));
+    ColorItem *coloritem2_10 = new ColorItem(QColor(200, 191, 231));
+    QHBoxLayout *hBoxLayout2 = new QHBoxLayout(); // 创建第二个水平布局
 
-	_btn_brush = new QPushButton();
-	_btn_brush->setFixedSize(2 * ITEM_LENGTH + 2, 2 * ITEM_LENGTH + 2);
-	_btn_brush->setIcon(QPixmap(":/image/brush.png"));
-	_btn_brush->setToolTip(QStringLiteral("填充"));
-	_btn_brush->setStyleSheet(s_brushStyle);
+    // 添加第二组颜色项到布局
+    hBoxLayout2->addWidget(coloritem2_1);
+    hBoxLayout2->addWidget(coloritem2_2);
+    hBoxLayout2->addWidget(coloritem2_3);
+    hBoxLayout2->addWidget(coloritem2_4);
+    hBoxLayout2->addWidget(coloritem2_5);
+    hBoxLayout2->addWidget(coloritem2_6);
+    hBoxLayout2->addWidget(coloritem2_7);
+    hBoxLayout2->addWidget(coloritem2_8);
+    hBoxLayout2->addWidget(coloritem2_9);
+    hBoxLayout2->addWidget(coloritem2_10);
+    hBoxLayout2->setMargin(2); // 设置边距
+    hBoxLayout2->setSpacing(2); // 设置间距
 
-	_cur_coloritem = new ColorItem(QColor(0, 0, 0), 2 * ITEM_LENGTH + 2);
-	PointSizeWidget *pointSizeWidget = new PointSizeWidget();
-	QHBoxLayout *hBoxLayout = new QHBoxLayout();
-	hBoxLayout->addWidget(pointSizeWidget);
-	hBoxLayout->addWidget(_btn_brush);
-	hBoxLayout->addWidget(_cur_coloritem);
-	hBoxLayout->setMargin(1);
-	hBoxLayout->setSpacing(2);
+    // 连接第二组颜色项的点击信号到处理函数
+    connect(coloritem2_1,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
+    connect(coloritem2_2,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
+    connect(coloritem2_3,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
+    connect(coloritem2_4,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
+    connect(coloritem2_5,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
+    connect(coloritem2_6,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
+    connect(coloritem2_7,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
+    connect(coloritem2_8,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
+    connect(coloritem2_9,  SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
+    connect(coloritem2_10, SIGNAL(itemClicked(const QColor &)), this, SLOT(colorItemChanged(const QColor &)));
 
-	connect(_cur_coloritem, SIGNAL(clicked()), this, SLOT(colorSelection()));
-	connect(pointSizeWidget, SIGNAL(wheelscrolled(int)), this, SLOT(pointSizeChanged(int)));
-	connect(_btn_brush, SIGNAL(clicked()), this, SLOT(btnBrushClicked()));
+    // 创建主垂直布局，包含两个水平布局
+    QVBoxLayout *vBoxLayout = new QVBoxLayout();
+    vBoxLayout->setMargin(1); // 设置边距
+    vBoxLayout->setSpacing(0); // 设置间距
+    vBoxLayout->addLayout(hBoxLayout1); // 添加第一组颜色布局
+    vBoxLayout->addLayout(hBoxLayout2); // 添加第二组颜色布局
 
-	QHBoxLayout *mainBoxLayout = new QHBoxLayout();
-	mainBoxLayout->addLayout(hBoxLayout);
-	mainBoxLayout->addLayout(vBoxLayout);
-	mainBoxLayout->setMargin(2);
-	mainBoxLayout->setSpacing(2);
+    // 创建画刷按钮
+    _btn_brush = new QPushButton();
+    _btn_brush->setFixedSize(45, 45); // 设置固定大小
+    _btn_brush->setIcon(QPixmap(":/image/brush.png")); // 设置图标
+    _btn_brush->setIconSize(QSize(25, 25));
+    _btn_brush->setToolTip(QStringLiteral("填充")); // 设置工具提示
+    _btn_brush->setStyleSheet(s_brushStyle); // 设置样式
 
-	_colorbar->setStyleSheet("background-color: rgb(34, 34, 37);");
-	_colorbar->setCursor(Qt::ArrowCursor);
-	_colorbar->setLayout(mainBoxLayout);
-	_colorbar->setVisible(true);
-	_colorbar->setVisible(false);
+    // 创建当前颜色项
+    _cur_coloritem = new ColorItem(QColor(0, 0, 0), 2 * ITEM_LENGTH + 2);
+    PointSizeWidget *pointSizeWidget = new PointSizeWidget(); // 创建点大小选择控件
+    QHBoxLayout *hBoxLayout = new QHBoxLayout(); // 创建水平布局
+    hBoxLayout->addWidget(pointSizeWidget); // 添加点大小控件
+    hBoxLayout->addWidget(_btn_brush); // 添加画刷按钮
+    hBoxLayout->addWidget(_cur_coloritem); // 添加当前颜色项
+    hBoxLayout->setMargin(1); // 设置边距
+    hBoxLayout->setSpacing(2); // 设置间距
+
+    // 连接信号和槽
+    connect(_cur_coloritem, SIGNAL(clicked()), this, SLOT(colorSelection())); // 颜色项点击
+    connect(pointSizeWidget, SIGNAL(wheelscrolled(int)), this, SLOT(pointSizeChanged(int))); // 点大小滚轮事件
+    connect(_btn_brush, SIGNAL(clicked()), this, SLOT(btnBrushClicked())); // 画刷按钮点击
+
+    // 创建主布局，包含颜色条和点大小选择控件
+    QHBoxLayout *mainBoxLayout = new QHBoxLayout();
+    mainBoxLayout->addLayout(hBoxLayout); // 添加点大小和颜色控件
+    mainBoxLayout->addLayout(vBoxLayout); // 添加颜色布局
+    mainBoxLayout->setMargin(2); // 设置边距
+    mainBoxLayout->setSpacing(2); // 设置间距
+
+    _colorbar->setStyleSheet("background-color: #F5F5F5;border-radius:10px;"); // 设置背景颜色
+    _colorbar->setCursor(Qt::ArrowCursor); // 设置光标样式
+    _colorbar->setLayout(mainBoxLayout); // 设置主布局
+    _colorbar->setVisible(true); // 显示颜色条
+    _colorbar->setVisible(false);
 }
+
+
 
 void ScreenView::showColorBar()
 {
@@ -568,14 +592,30 @@ void ScreenView::initToolBar()
     _btn_uploadPicGo->setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     _btn_ocr->setFixedSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 
-	_btn_copy->setIcon(QPixmap(":/image/copy.png"));
-	_btn_save->setIcon(QPixmap(":/image/save.png"));
-	_btn_drawLine->setIcon(QPixmap(":/image/drawline.png"));
-	_btn_drawRect->setIcon(QPixmap(":/image/drawrect.png"));
-	_btn_drawEllipse->setIcon(QPixmap(":/image/drawellipse.png"));
-	_btn_drawText->setIcon(QPixmap(":/image/drawtext.png"));
-    _btn_uploadPicGo->setIcon(QPixmap(":/image/mail.ico"));
+    _btn_copy->setIcon(QPixmap(":/image/copy.png"));
+    _btn_copy->setIconSize(QSize(32, 32));
+
+    _btn_save->setIcon(QPixmap(":/image/save.png"));
+    _btn_save->setIconSize(QSize(32, 32));
+
+    _btn_drawLine->setIcon(QPixmap(":/image/drawline.png"));
+    _btn_drawLine->setIconSize(QSize(32, 32));
+
+    _btn_drawRect->setIcon(QPixmap(":/image/drawrect.png"));
+    _btn_drawRect->setIconSize(QSize(32, 32));
+
+    _btn_drawEllipse->setIcon(QPixmap(":/image/drawellipse.png"));
+    _btn_drawEllipse->setIconSize(QSize(32, 32));
+
+    _btn_drawText->setIcon(QPixmap(":/image/drawtext.png"));
+    _btn_drawText->setIconSize(QSize(32, 32));
+
+    _btn_uploadPicGo->setIcon(QPixmap(":/image/mail.png"));
+    _btn_uploadPicGo->setIconSize(QSize(32, 32));
+
     _btn_ocr->setIcon(QPixmap(":/image/title.png"));
+    _btn_ocr->setIconSize(QSize(32, 32));
+
 	
 	_btn_copy->setToolTip(QStringLiteral("复制到剪贴板"));
 	_btn_save->setToolTip(QStringLiteral("保存到文件"));
@@ -586,7 +626,7 @@ void ScreenView::initToolBar()
     _btn_uploadPicGo->setToolTip(QStringLiteral("上传到PicGo"));
     _btn_ocr->setToolTip(QStringLiteral("提取文字"));
 
-	_toolbar->setStyleSheet("border:none;background-color: rgb(255, 255, 255);");
+    _toolbar->setStyleSheet(toolbar_Style);
 	_btn_copy->setStyleSheet(s_normalStyle);
 	_btn_save->setStyleSheet(s_normalStyle);
 	_btn_drawLine->setStyleSheet(s_normalStyle);

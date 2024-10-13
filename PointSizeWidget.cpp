@@ -6,7 +6,7 @@ PointSizeWidget::PointSizeWidget(int point_size/* = 2*/, QWidget *parent/* = 0*/
 	: QLabel(parent), _point_size(point_size)
 {
 	setFixedSize(LABELSIZE, LABELSIZE);
-	setStyleSheet("background-color:rgb(0, 122, 204);");
+    setStyleSheet("background-color:rgb(0, 122, 204);");
 
 	_ptCenter.setX(width()*0.5);
 	_ptCenter.setY(height()*0.5);

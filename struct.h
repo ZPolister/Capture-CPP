@@ -1,13 +1,13 @@
 ﻿#ifndef STRCUT_H
 #define STRCUT_H
 
-#define BUTTON_HEIGHT 25
-#define BUTTON_WIDTH  25
+#define BUTTON_HEIGHT 50
+#define BUTTON_WIDTH  50
 
 #define LABEL_HEIGHT 20
 #define LABEL_WIDTH 60
 
-#define ITEM_LENGTH 13
+#define ITEM_LENGTH 15
 
 #define MARGIN 10
 

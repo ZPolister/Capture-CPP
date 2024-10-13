@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>image/comp.ico</file>
-        <file>image/mail.ico</file>
         <file>image/add.ico</file>
         <file>image/remove.ico</file>
         <file>image/add.png</file>
@@ -19,5 +18,6 @@
         <file>image/main.ico</file>
         <file>translation/capture_zh.qm</file>
         <file>translation/capture_en.qm</file>
+        <file>image/mail.png</file>
     </qresource>
 </RCC>

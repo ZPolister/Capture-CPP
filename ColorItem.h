@@ -35,7 +35,7 @@ signals:
 private:
 	bool _bMouseIn;
 	QColor _color;
-	int _item_length;
+    int _item_length;
 };
 
 #endif // COLORITEM_H
