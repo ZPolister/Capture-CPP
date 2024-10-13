@@ -1,12 +1,14 @@
 #include "ColorItem.h"
 #include <QPainter>
 
-ColorItem::ColorItem(const QColor &color, int item_length /*= ITEM_LENGTH*/, QWidget *parent /*= 0*/)
+ColorItem::ColorItem(const QColor &color, int item_length/* = ITEM_LENGTH*/, QWidget *parent /*= 0*/)
 	: QLabel(parent), _item_length(item_length)
 {
+    _item_length=25;
 	_bMouseIn = false;
 	setFixedSize(_item_length, _item_length);
-	setColor(color);
+    setColor(color);
+
 }
 
 ColorItem::~ColorItem()
@@ -61,7 +63,7 @@ void ColorItem::paintEvent(QPaintEvent *event)
 	{
 		QPainter painter(this);
 		painter.setCompositionMode(QPainter::CompositionMode_Source);
-		painter.setPen(QPen(Qt::white, 2));
-		painter.drawRect(1, 1, _item_length - 2, _item_length - 2);
+        painter.setPen(QPen(Qt::gray, 2.5));
+        painter.drawRect(1, 1, _item_length - 2, _item_length - 2);
 	}
 }
