@@ -1,6 +1,5 @@
 ﻿#include "CaptureApplication.h"
 #include "qdebug.h"
-#include "screenview.h"
 #include <QFileDialog>
 #include <QScreen>
 #include <QMouseEvent>
@@ -97,12 +96,27 @@ void CaptureApplication::openImage()
 
 void CaptureApplication::screenShotCut()
 {
-	QScreen *screen = QGuiApplication::primaryScreen();
-	QPixmap fullPixmap = screen->grabWindow(0);
-	ScreenView *screenView = new ScreenView();
-	screenView->setBackGroundPixmap(fullPixmap);  //传递全屏背景图片
-	screenView->show();
+    // 获取所有屏幕
+    const QList<QScreen*> screens = QGuiApplication::screens();
+    for (QScreen *screen : screens) {
+        // 捕获每个屏幕的内容
+        QPixmap fullPixmap = screen->grabWindow(0);
+
+        ScreenView *screenView = new ScreenView(screen);
+        screenView->setBackGroundPixmap(fullPixmap);
+
+        // 设置 ScreenView 的位置
+        QRect screenGeometry = screen->geometry();
+        screenView->setGeometry(screenGeometry);
+
+
+        // 显示 ScreenView
+        screenView->show();
+        views.append(screenView);
+    }
 }
+
+
 
 
 void CaptureApplication::trayMenuTrigged(QAction* action)
@@ -174,4 +188,5 @@ void CaptureApplication::on_checkBox_stateChanged(int arg1)
 }
 
 bool copyWithMd = true;
+QList<ScreenView*> views;
 

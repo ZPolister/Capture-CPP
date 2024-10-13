@@ -23,6 +23,7 @@
 #include <QJsonArray>
 #include <QMessageBox>
 #include <QProgressDialog>
+#include <QTimer>
 #include "CaptureApplication.h"
 #include "ResultWindow.h"
 #include "imageview.h"
@@ -51,9 +52,22 @@ ScreenView::ScreenView(QWidget *parent)
 	showFullScreen();             //画布全屏显示
 }
 
+ScreenView::ScreenView(QScreen* screen, QWidget *parent)
+    : QWidget(parent)
+{
+    init();
+    initLabel();
+    initColorBar();
+    initToolBar();
+    setMouseTracking(true);       //鼠标移动捕捉
+    raise();                      //软置顶
+    showFullScreen();
+
+    this->screen = screen;
+}
 ScreenView::~ScreenView()
 {
-
+    views.removeAll(this);
 }
 
 
@@ -920,6 +934,22 @@ void ScreenView::mousePressEvent(QMouseEvent *event)
 			_ptE.ry() = event->y();
 			_shortArea = getRectF(_ptS, _ptE);
 			_draw_flag = DrawStatus::DRAWINIG;
+
+            // 其他屏幕不截图了，放开
+            // 获取鼠标位置
+            QPoint mousePos = event->globalPos();
+            QList<ScreenView*> unusedViewList;
+            for (auto view : views) {
+                // 检查鼠标位置是否在屏幕的矩形区域内
+                if (!view->screen->geometry().contains(mousePos)) {
+                    unusedViewList.append(view);
+                }
+            }
+
+            for (auto view: unusedViewList) {
+                view->close();
+                views.removeAll(view);
+            }
 		}
 		else if (DrawStatus::DRAWEND == _draw_flag)
 		{

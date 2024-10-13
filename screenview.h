@@ -10,7 +10,6 @@
 #include "TextPaint.h"
 #include "ColorItem.h"
 #include "PointSizeWidget.h"
-#include "ResultWindow.h"
 
 typedef RectPaint EllipsePaint;
 
@@ -20,7 +19,8 @@ class ScreenView : public QWidget
 	Q_OBJECT
 
 public:
-	ScreenView(QWidget *parent = NULL);	
+    ScreenView(QWidget *parent = NULL);
+    ScreenView(QScreen* screen, QWidget *parent = NULL);
 	~ScreenView();
 
 	void setBackGroundPixmap(QPixmap &px);
@@ -39,6 +39,8 @@ public:
 	 * @brief:获当前鼠标在矩形区域的位置
 	 **/
 	CursorLocation caputerCursor(QRectF rect, qreal x, qreal y);
+
+    QScreen* screen; // 屏幕列表，适配多屏幕截图
 
 public slots:
 	void copyImage();
@@ -157,6 +159,7 @@ private:
 
 	bool _bIsDrawLineEnd;//判断当前绘制线段是否结束
 	bool _bIsBrushed;//判断当前是否填充模式
+
 
 };
 

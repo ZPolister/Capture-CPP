@@ -5,6 +5,7 @@
 #include "ui_CaptureApplication.h"
 #include "imageview.h"
 #include <QSystemTrayIcon>
+#include "screenview.h"
 #include "QMenu"
 
 class CaptureApplication : public QWidget
@@ -44,5 +45,6 @@ private:
 };
 
 extern bool copyWithMd;
+extern QList<ScreenView*> views;
 
 #endif // CAPTURE_APPLICATION_H
