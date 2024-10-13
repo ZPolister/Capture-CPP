@@ -22,6 +22,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QMessageBox>
+#include <QProgressDialog>
 #include "ResultWindow.h"
 #include "imageview.h"
 
@@ -867,58 +868,15 @@ void ScreenView::ocrText() {
     QDir currentDir = QDir::current();
     QString imagePath = currentDir.absoluteFilePath(imageName);
 
+    ResultWindow *resultWindow = new ResultWindow(imagePath, this);
+    resultWindow->show();
 
-    QNetworkAccessManager netManager;
+    this->hide();
+    resultWindow->request();
+    resultWindow->exec();
+    delete resultWindow;
+    this->close();
 
-    QString url = "http://localhost:36680/check";
-    QNetworkRequest request = QNetworkRequest(QUrl(url));
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
-    QJsonObject json;
-    json["path"] = imagePath;
-    QJsonDocument doc(json);
-    QByteArray jsonData = doc.toJson();
-
-    QByteArray responseData;
-    QEventLoop eventLoop;
-    connect(&netManager, SIGNAL(finished(QNetworkReply * )), &eventLoop, SLOT(quit()));
-    QNetworkReply *initReply = netManager.post(request, jsonData);
-    eventLoop.exec();
-    responseData = initReply->readAll();
-    qDebug() << responseData;
-
-    // 解析json
-    QJsonParseError json_error;
-    QJsonDocument doucment = QJsonDocument::fromJson(responseData, &json_error);
-    if (json_error.error == QJsonParseError::NoError) {
-        if (doucment.isObject()) {
-            const QJsonObject object_data = doucment.object();
-            qDebug() << object_data;
-            if (object_data.contains("success") && object_data.value("success").toBool()) {
-                QStringList stringList;
-                QJsonArray jsonArray = object_data.value("result").toArray();
-                for (const QJsonValue &value: jsonArray) {
-                    if (value.isString()) {
-                        stringList.append(value.toString());
-                    }
-                }
-
-                ResultWindow resultWindow(QString(stringList.join("\n")), this);
-                resultWindow.exec();
-
-                this->show();
-            }
-        }
-    }
-
-    if (QFile::exists(imagePath)) {
-        // 删除临时文件
-        if (QFile::remove(imagePath)) {
-            qDebug() << "File deleted successfully:" << imagePath;
-        } else {
-            qDebug() << "Failed to delete file:" << imagePath;
-        }
-    }
 }
 
 void ScreenView::drawText(QMouseEvent *event)
