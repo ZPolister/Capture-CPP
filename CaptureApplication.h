@@ -23,6 +23,7 @@ public:
 	void trayMenuTrigged(QAction* action);
 	void trayActivated(QSystemTrayIcon::ActivationReason reason);
 	void switchLanguage(const QString &text);
+    void showLaunchMessage();
 
 private:
 	void languageTranslate();
@@ -51,7 +52,6 @@ private:
     QxtGlobalShortcut* shortcut;
 };
 
-extern bool copyWithMd;
 extern QList<ScreenView*> views;
 
 #endif // CAPTURE_APPLICATION_H

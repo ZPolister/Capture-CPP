@@ -9,6 +9,7 @@
 #include <qt_windows.h>
 #include <QSettings>
 #include <QInputDialog>
+#include "localconfig.h"
 
 #if _MSC_VER >= 1600
 #pragma execution_character_set("utf-8")
@@ -25,15 +26,15 @@ CaptureApplication::CaptureApplication(QWidget *parent)
 	: QWidget(parent), m_translator(nullptr)
 {
 	ui.setupUi(this);
+
+
 	_file_path = QStringLiteral(".");
 
     m_tray = new QSystemTrayIcon(QIcon(":/image/main.ico"), this);
-    m_tray->setToolTip(tr("Dian=\nscreenshots:F1") + "F1");
+    m_tray->setToolTip(tr("Dian=\nscreenshots:F1") + localConfig.hotkey);
 	m_tray->show();
     QIcon messageIcon(":/image/main.ico");
-    m_tray->showMessage(QStringLiteral(""), tr("Dian-capture\n"
-                                                           "截屏:F1\n"
-                                                           "贴图:鼠标中键"));
+
 
 	m_trayMenu = new QMenu(this);
 	m_prefer = new QAction(tr("Preference"), m_trayMenu);
@@ -45,10 +46,11 @@ CaptureApplication::CaptureApplication(QWidget *parent)
 	QStringList languages;
 	languages << QStringLiteral("中文") << QStringLiteral("English");
     ui.comboBox_langue->addItems(languages);
+
 	
     shortcut = new QxtGlobalShortcut(this);
-	if(!shortcut->setShortcut(QKeySequence(QLatin1String("F1"))))
-        m_tray->showMessage(tr("Error"), tr("register shorcut F1 failed"), QSystemTrayIcon::Critical);
+    if(!shortcut->setShortcut(QKeySequence(localConfig.hotkey)))
+        m_tray->showMessage(tr("Error"), tr("register shorcut failed:") + localConfig.hotkey, QSystemTrayIcon::Critical);
 
 	connect(shortcut, &QxtGlobalShortcut::activated, this, &CaptureApplication::screenShotCut);
 	connect(ui.pushButton_open,     &QPushButton::clicked, this, &CaptureApplication::openImage);
@@ -56,14 +58,28 @@ CaptureApplication::CaptureApplication(QWidget *parent)
 	connect(m_trayMenu, &QMenu::triggered, this, &CaptureApplication::trayMenuTrigged);
 	connect(m_tray, &QSystemTrayIcon::activated, this, &CaptureApplication::trayActivated);
 	connect(ui.comboBox_langue, &QComboBox::currentTextChanged, this, &CaptureApplication::switchLanguage);
-}
 
+
+    // 加载配置文件
+    ui.autoRuncheckBox->setChecked(localConfig.runWhenLogin);
+    ui.checkBox->setChecked(localConfig.copyWithMd);
+    ui.comboBox_langue->setCurrentText(localConfig.language);
+
+}
+void CaptureApplication::showLaunchMessage()
+{
+    m_tray->showMessage(QStringLiteral(""), tr("Dian-capture") + "\n" +
+                                                tr("截屏:") +
+                                                localConfig.hotkey +
+                                                "\n" +
+                                                tr("贴图:鼠标中键"));
+}
 
 void CaptureApplication::languageTranslate()
 {
 	m_prefer->setText(tr("Preference"));
 	m_quit->setText(tr("Quit"));
-    m_tray->setToolTip(tr("Dian-capture\nscreenshots:F1") + "F1");
+    m_tray->setToolTip(tr("Dian-capture\nscreenshots:F1") + localConfig.hotkey);
 }
 
 CaptureApplication::~CaptureApplication()
@@ -151,6 +167,7 @@ void CaptureApplication::trayActivated(QSystemTrayIcon::ActivationReason reason)
 
 void CaptureApplication::switchLanguage(const QString &text)
 {
+    qDebug() << "改变语言：" + text;
 	if (text == QLatin1String("English"))
 	{
 		m_translator = new QTranslator();
@@ -159,7 +176,7 @@ void CaptureApplication::switchLanguage(const QString &text)
 		ui.retranslateUi(this);
 		languageTranslate();
 	}
-	else
+    else
 	{
 		m_translator = new QTranslator();
         m_translator->load(":/translation/capture_zh.qm");
@@ -167,6 +184,8 @@ void CaptureApplication::switchLanguage(const QString &text)
 		ui.retranslateUi(this);
 		languageTranslate();
 	}
+    localConfig.language = text;
+    localConfig.saveConfig();
 }
 
 void CaptureApplication::hideEvent(QHideEvent *event)
@@ -190,7 +209,8 @@ void CaptureApplication::closeEvent(QCloseEvent *event)
 void CaptureApplication::on_checkBox_stateChanged(int arg1)
 {
     qDebug() << arg1;
-    copyWithMd = arg1 == 2;
+    localConfig.copyWithMd = arg1 == 2;
+    localConfig.saveConfig();
 }
 
 
@@ -211,6 +231,9 @@ void CaptureApplication::setAutoRun(bool isStart)
     {
         settings->remove(application_name);
     }
+
+    localConfig.runWhenLogin = isStart;
+    localConfig.saveConfig();
 }
 
 void CaptureApplication::on_autoRuncheckBox_stateChanged(int arg1)
@@ -231,13 +254,13 @@ void CaptureApplication::on_pushButton_hotKey_clicked() {
             m_tray->showMessage(QObject::tr("错误"), QObject::tr("快捷键已被占用：") + text, QSystemTrayIcon::Critical);
         } else {
             m_tray->showMessage(QObject::tr("成功"), QObject::tr("快捷键已修改：") + text, QSystemTrayIcon::Information);
+            localConfig.hotkey = text;
+            localConfig.saveConfig();
             m_tray->setToolTip(tr("Dian=\nscreenshots:F1") + text);
         }
     }
 }
 
-
-bool copyWithMd = true;
 QList<ScreenView*> views;
 
 
