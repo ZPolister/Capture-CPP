@@ -31,56 +31,71 @@
     <message>
         <location filename="CaptureApplication.ui" line="96"/>
         <source>开机自启动</source>
-        <translation>Auto run When Login</translation>
+        <translation>Auto Run When Login</translation>
     </message>
     <message>
-        <location filename="CaptureApplication.ui" line="89"/>
+        <location filename="CaptureApplication.ui" line="112"/>
+        <source>修改截图快捷键</source>
+        <translation>Modify screenshot key</translation>
+    </message>
+    <message>
+        <location filename="CaptureApplication.ui" line="118"/>
         <source>配置</source>
         <translation>Settings</translation>
     </message>
     <message>
-        <location filename="CaptureApplication.ui" line="104"/>
+        <location filename="CaptureApplication.ui" line="133"/>
         <source>语言：</source>
         <translation>Language</translation>
     </message>
     <message>
-        <location filename="CaptureApplication.cpp" line="30"/>
+        <location filename="CaptureApplication.cpp" line="31"/>
+        <location filename="CaptureApplication.cpp" line="227"/>
         <source>Dian=
 screenshots:F1</source>
         <translation>Dian-Capture
-Screen: F1</translation>
+Screenshots: </translation>
     </message>
     <message>
-        <location filename="CaptureApplication.cpp" line="38"/>
-        <location filename="CaptureApplication.cpp" line="63"/>
+        <location filename="CaptureApplication.cpp" line="34"/>
+        <source>Dian-capture
+截屏:F1
+贴图:鼠标中键</source>
+        <translation>Dian-capture
+Screenshot:F1
+Pin:Mouse Wheel</translation>
+    </message>
+    <message>
+        <location filename="CaptureApplication.cpp" line="39"/>
+        <location filename="CaptureApplication.cpp" line="64"/>
         <source>Preference</source>
         <translation>Preference</translation>
     </message>
     <message>
-        <location filename="CaptureApplication.cpp" line="40"/>
-        <location filename="CaptureApplication.cpp" line="64"/>
+        <location filename="CaptureApplication.cpp" line="41"/>
+        <location filename="CaptureApplication.cpp" line="65"/>
         <source>Quit</source>
         <translation>Quit</translation>
     </message>
     <message>
-        <location filename="CaptureApplication.cpp" line="50"/>
+        <location filename="CaptureApplication.cpp" line="51"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="CaptureApplication.cpp" line="50"/>
+        <location filename="CaptureApplication.cpp" line="51"/>
         <source>register shorcut F1 failed</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="CaptureApplication.cpp" line="65"/>
+        <location filename="CaptureApplication.cpp" line="66"/>
         <source>Dian-capture
 screenshots:F1</source>
         <translation>Dian-Capture
 Screen: F1</translation>
     </message>
     <message>
-        <location filename="CaptureApplication.cpp" line="85"/>
+        <location filename="CaptureApplication.cpp" line="86"/>
         <source>Choose Image</source>
         <translation>Choose Image</translation>
     </message>
@@ -94,34 +109,67 @@ Screen: F1</translation>
     </message>
 </context>
 <context>
+    <name>QObject</name>
+    <message>
+        <location filename="CaptureApplication.cpp" line="217"/>
+        <source>修改截图快捷键</source>
+        <translation>Modify screenshot key</translation>
+    </message>
+    <message>
+        <location filename="CaptureApplication.cpp" line="218"/>
+        <source>输入快捷键（例如：Alt+F1 或 F1）:</source>
+        <translation>Input The New HotKey (eg：Alt+F1  or  F1):</translation>
+    </message>
+    <message>
+        <location filename="CaptureApplication.cpp" line="224"/>
+        <source>错误</source>
+        <translation>Failed</translation>
+    </message>
+    <message>
+        <location filename="CaptureApplication.cpp" line="224"/>
+        <source>快捷键已被占用：</source>
+        <translation>Shortcut keys are already in use:</translation>
+    </message>
+    <message>
+        <location filename="CaptureApplication.cpp" line="226"/>
+        <source>成功</source>
+        <translation>Success</translation>
+    </message>
+    <message>
+        <location filename="CaptureApplication.cpp" line="226"/>
+        <source>快捷键已修改：</source>
+        <translation>The shortcut has been changed to:</translation>
+    </message>
+</context>
+<context>
     <name>ResultWindow</name>
     <message>
-        <location filename="ResultWindow.cpp" line="15"/>
+        <location filename="ResultWindow.cpp" line="17"/>
         <source>识别结果</source>
         <translation>Identification Result</translation>
     </message>
     <message>
-        <location filename="ResultWindow.cpp" line="27"/>
+        <location filename="ResultWindow.cpp" line="31"/>
         <source>正在识别...</source>
         <translation>Be identifying...</translation>
     </message>
     <message>
-        <location filename="ResultWindow.cpp" line="34"/>
+        <location filename="ResultWindow.cpp" line="38"/>
         <source>完成</source>
         <translation>Finish</translation>
     </message>
     <message>
-        <location filename="ResultWindow.cpp" line="37"/>
+        <location filename="ResultWindow.cpp" line="41"/>
         <source>复制</source>
         <translation>Copy</translation>
     </message>
     <message>
-        <location filename="ResultWindow.cpp" line="79"/>
+        <location filename="ResultWindow.cpp" line="83"/>
         <source>无法加载图片</source>
         <translation>Unable to load picture</translation>
     </message>
     <message>
-        <location filename="ResultWindow.cpp" line="124"/>
+        <location filename="ResultWindow.cpp" line="128"/>
         <source>识别失败，请检查本地OCR服务是否正常</source>
         <translation>The identification fails. Please check whether the local OCR service is working</translation>
     </message>

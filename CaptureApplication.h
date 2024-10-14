@@ -5,6 +5,7 @@
 #include "ui_CaptureApplication.h"
 #include "imageview.h"
 #include <QSystemTrayIcon>
+#include "qxtglobalshortcut.h"
 #include "screenview.h"
 #include "QMenu"
 
@@ -36,6 +37,8 @@ private slots:
 
     void on_autoRuncheckBox_stateChanged(int arg1);
 
+    void on_pushButton_hotKey_clicked();
+
 private:
     Ui::CaptureApplication ui;
 	std::vector<ImageView *> _arr_imgView;
@@ -45,6 +48,7 @@ private:
 	QAction *m_prefer;
 	QAction *m_quit;
 	QTranslator *m_translator;
+    QxtGlobalShortcut* shortcut;
 };
 
 extern bool copyWithMd;
