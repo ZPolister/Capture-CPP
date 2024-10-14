@@ -85,14 +85,14 @@ Pin:Mouse Wheel</translation>
     <message>
         <location filename="CaptureApplication.cpp" line="51"/>
         <source>register shorcut F1 failed</source>
-        <translation></translation>
+        <translation>Register shortcut F1 failed</translation>
     </message>
     <message>
         <location filename="CaptureApplication.cpp" line="66"/>
         <source>Dian-capture
 screenshots:F1</source>
         <translation>Dian-Capture
-Screen: F1</translation>
+Screenshot:</translation>
     </message>
     <message>
         <location filename="CaptureApplication.cpp" line="86"/>

@@ -1212,23 +1212,16 @@ void ScreenView::mouseReleaseEvent(QMouseEvent *event)
 	}
 }
 
+void clearScreen() {
+    for (auto view: views) {
+        view->close();
+    }
+}
+
 void ScreenView::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Escape) {
-        QPoint mousePos = QCursor::pos();
-        QList<ScreenView*> unusedViewList;
-        for (auto view : views) {
-            if (!view->screen->geometry().contains(mousePos)) {
-                unusedViewList.append(view);
-            }
-        }
-
-        for (auto view: unusedViewList) {
-            view->close();
-            views.removeAll(view);
-        }
-
-        this->close();
+        clearScreen();
     }
     else if (event->key() == Qt::Key_Return)
         this->copyImage();
