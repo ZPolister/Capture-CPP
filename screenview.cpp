@@ -208,7 +208,7 @@ void ScreenView::saveImage()
 	QString save_file = "ScreenShot_" + current_date + ".jpg";
 
 	QString file_name = QFileDialog::getSaveFileName(this, 
-													 QStringLiteral("保存图片"), 
+                                                     tr("保存图片"),
 													 "./" + save_file, 
 													 "JPEG File (*.jpg);;BMP File (*.bmp);;PNG File (*.png)");
 	if (file_name.isEmpty())
@@ -356,7 +356,7 @@ void ScreenView::colorItemChanged(const QColor &color)
 void ScreenView::colorSelection()
 {
 	QColorDialog dia(this);
-	dia.setWindowTitle(QStringLiteral("选择颜色"));
+    dia.setWindowTitle(tr("选择颜色"));
 	dia.setCurrentColor(_cur_coloritem->getColor());
 	if (dia.exec() == QColorDialog::Accepted)
 	{
@@ -511,7 +511,7 @@ void ScreenView::initColorBar()
     _btn_brush->setFixedSize(45, 45); // 设置固定大小
     _btn_brush->setIcon(QPixmap(":/image/brush.png")); // 设置图标
     _btn_brush->setIconSize(QSize(25, 25));
-    _btn_brush->setToolTip(QStringLiteral("填充")); // 设置工具提示
+    _btn_brush->setToolTip(tr("填充")); // 设置工具提示
     _btn_brush->setStyleSheet(s_brushStyle); // 设置样式
 
     // 创建当前颜色项
@@ -566,7 +566,7 @@ void ScreenView::initLabel()
 	_label->setAlignment(Qt::AlignHCenter);
 
 	QFont font;
-	font.setFamily(QStringLiteral("Microsoft YaHei"));
+    font.setFamily(QStringLiteral("Microsoft YaHei"));
 	_label->setFont(font);
 }
 
@@ -577,7 +577,7 @@ void ScreenView::showLabel()
 	qreal y = _shortArea.topLeft().y() - _label->height() - 2;
 	qreal w = _shortArea.width();
 	qreal h = _shortArea.height();
-	QString tip = QStringLiteral("%1 × %2").arg(w).arg(h);
+    QString tip = QStringLiteral("%1 × %2").arg(w).arg(h);
 	_label->setText(tip);
 	_label->adjustSize();
 	_label->move(x, y);
@@ -637,14 +637,14 @@ void ScreenView::initToolBar()
     _btn_ocr->setIconSize(QSize(32, 32));
 
 	
-    _btn_copy->setToolTip(QStringLiteral("复制到剪贴板(Enter)"));
-    _btn_save->setToolTip(QStringLiteral("保存到文件(S)"));
-    _btn_drawLine->setToolTip(QStringLiteral("绘制线段(L)"));
-    _btn_drawRect->setToolTip(QStringLiteral("绘制矩形(P)"));
-    _btn_drawEllipse->setToolTip(QStringLiteral("绘制椭圆(M)"));
-    _btn_drawText->setToolTip(QStringLiteral("添加文本(T)"));
-    _btn_uploadPicGo->setToolTip(QStringLiteral("上传到PicGo(U)"));
-    _btn_ocr->setToolTip(QStringLiteral("提取文字(O)"));
+    _btn_copy->setToolTip(tr("复制到剪贴板(Enter)"));
+    _btn_save->setToolTip(tr("保存到文件(S)"));
+    _btn_drawLine->setToolTip(tr("绘制线段(L)"));
+    _btn_drawRect->setToolTip(tr("绘制矩形(P)"));
+    _btn_drawEllipse->setToolTip(tr("绘制椭圆(M)"));
+    _btn_drawText->setToolTip(tr("添加文本(T)"));
+    _btn_uploadPicGo->setToolTip(tr("上传到PicGo(U)"));
+    _btn_ocr->setToolTip(tr("提取文字(O)"));
 
     _toolbar->setStyleSheet(toolbar_Style);
 	_btn_copy->setStyleSheet(s_normalStyle);

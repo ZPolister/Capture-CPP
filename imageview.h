@@ -1,7 +1,7 @@
 #ifndef IMAGEVIEW_H
 #define IMAGEVIEW_H
 
-#include <QWidget >
+#include <QWidget>
 #include "QImage"
 QT_BEGIN_NAMESPACE
 class QWheelEvent;
