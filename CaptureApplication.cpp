@@ -6,9 +6,9 @@
 #include <QBitmap>
 #include <QComboBox>
 #include "QTranslator"
-#include "qxtglobalshortcut.h"
 #include <qt_windows.h>
 #include <QSettings>
+#include <QInputDialog>
 
 #if _MSC_VER >= 1600
 #pragma execution_character_set("utf-8")
@@ -28,7 +28,7 @@ CaptureApplication::CaptureApplication(QWidget *parent)
 	_file_path = QStringLiteral(".");
 
     m_tray = new QSystemTrayIcon(QIcon(":/image/main.ico"), this);
-    m_tray->setToolTip(tr("Dian=\nscreenshots:F1"));
+    m_tray->setToolTip(tr("Dian=\nscreenshots:F1") + "F1");
 	m_tray->show();
     QIcon messageIcon(":/image/main.ico");
     m_tray->showMessage(QStringLiteral(""), tr("Dian-capture\n"
@@ -46,7 +46,7 @@ CaptureApplication::CaptureApplication(QWidget *parent)
 	languages << QStringLiteral("中文") << QStringLiteral("English");
     ui.comboBox_langue->addItems(languages);
 	
-	QxtGlobalShortcut* shortcut = new QxtGlobalShortcut(this);
+    shortcut = new QxtGlobalShortcut(this);
 	if(!shortcut->setShortcut(QKeySequence(QLatin1String("F1"))))
         m_tray->showMessage(tr("Error"), tr("register shorcut F1 failed"), QSystemTrayIcon::Critical);
 
@@ -211,10 +211,27 @@ void CaptureApplication::on_autoRuncheckBox_stateChanged(int arg1)
     this->setAutoRun(arg1 == 2);
 }
 
+void CaptureApplication::on_pushButton_hotKey_clicked() {
+
+    bool ok;
+    QString text = QInputDialog::getText(nullptr, QObject::tr("修改截图快捷键"),
+                                         QObject::tr("输入快捷键（例如：Alt+F1 或 F1）:"),
+                                         QLineEdit::Normal, "", &ok);
+
+    if (ok && !text.isEmpty()) {
+        // 用户输入的快捷键
+        if (!shortcut->setShortcut(QKeySequence(text))) {
+            m_tray->showMessage(QObject::tr("错误"), QObject::tr("快捷键已被占用：") + text, QSystemTrayIcon::Critical);
+        } else {
+            m_tray->showMessage(QObject::tr("成功"), QObject::tr("快捷键已修改：") + text, QSystemTrayIcon::Information);
+            m_tray->setToolTip(tr("Dian=\nscreenshots:F1") + text);
+        }
+    }
+}
+
 
 bool copyWithMd = true;
 QList<ScreenView*> views;
-
 
 
 
