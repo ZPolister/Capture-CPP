@@ -29,6 +29,11 @@
         <translation>Copy Update Result With md</translation>
     </message>
     <message>
+        <location filename="CaptureApplication.ui" line="96"/>
+        <source>开机自启动</source>
+        <translation>Auto run When Login</translation>
+    </message>
+    <message>
         <location filename="CaptureApplication.ui" line="89"/>
         <source>配置</source>
         <translation>Settings</translation>

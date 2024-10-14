@@ -83,6 +83,22 @@
         <bool>false</bool>
        </property>
       </widget>
+      <widget class="QCheckBox" name="autoRuncheckBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>160</y>
+         <width>321</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>开机自启动</string>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
      </widget>
      <widget class="QWidget" name="tab_config">
       <attribute name="title">

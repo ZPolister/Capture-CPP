@@ -8,6 +8,7 @@
 #include "QTranslator"
 #include "qxtglobalshortcut.h"
 #include <qt_windows.h>
+#include <QSettings>
 
 #if _MSC_VER >= 1600
 #pragma execution_character_set("utf-8")
@@ -187,6 +188,33 @@ void CaptureApplication::on_checkBox_stateChanged(int arg1)
     copyWithMd = arg1 == 2;
 }
 
+
+// 自启动设定
+void CaptureApplication::setAutoRun(bool isStart)
+{
+    #define AUTO_RUN_KEY	"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
+    QString application_name = QApplication::applicationName();
+    QSettings *settings = new QSettings(AUTO_RUN_KEY, QSettings::NativeFormat);
+    if(isStart)
+    {
+        QString application_path = QApplication::applicationFilePath();
+        settings->setValue(application_name, application_path.replace("/", "\\"));
+    }
+    else
+    {
+        settings->remove(application_name);
+    }
+}
+
+void CaptureApplication::on_autoRuncheckBox_stateChanged(int arg1)
+{
+    this->setAutoRun(arg1 == 2);
+}
+
+
 bool copyWithMd = true;
 QList<ScreenView*> views;
+
+
+
 

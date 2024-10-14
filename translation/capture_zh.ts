@@ -29,6 +29,11 @@
         <translation>复制时使用MD格式</translation>
     </message>
     <message>
+        <location filename="CaptureApplication.ui" line="96"/>
+        <source>开机自启动</source>
+        <translation>开机自启动</translation>
+    </message>
+    <message>
         <location filename="CaptureApplication.ui" line="89"/>
         <source>配置</source>
         <translation>设置</translation>
