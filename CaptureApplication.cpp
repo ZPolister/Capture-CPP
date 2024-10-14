@@ -63,7 +63,7 @@ void CaptureApplication::languageTranslate()
 {
 	m_prefer->setText(tr("Preference"));
 	m_quit->setText(tr("Quit"));
-    m_tray->setToolTip(tr("Dian-capture\nscreenshots:F1"));
+    m_tray->setToolTip(tr("Dian-capture\nscreenshots:F1") + "F1");
 }
 
 CaptureApplication::~CaptureApplication()
@@ -97,6 +97,11 @@ void CaptureApplication::openImage()
 
 void CaptureApplication::screenShotCut()
 {
+    // 已经开启截图时不会重复套娃开启
+    if (!views.empty()) {
+        return;
+    }
+
     // 获取所有屏幕
     const QList<QScreen*> screens = QGuiApplication::screens();
     for (QScreen *screen : screens) {
@@ -192,7 +197,7 @@ void CaptureApplication::on_checkBox_stateChanged(int arg1)
 // 自启动设定
 void CaptureApplication::setAutoRun(bool isStart)
 {
-    #define AUTO_RUN_KEY	"HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
+    #define AUTO_RUN_KEY	"HKEY_LOCAL_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
     QString application_name = QApplication::applicationName();
     QSettings *settings = new QSettings(AUTO_RUN_KEY, QSettings::NativeFormat);
     if(isStart)
