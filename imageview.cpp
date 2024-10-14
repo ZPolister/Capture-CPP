@@ -88,7 +88,7 @@ void ImageView::mousePressEvent(QMouseEvent *event)
 	{
 		QMenu *menu = new QMenu;
 		QAction *actExit = new QAction(menu);
-		actExit->setText(QStringLiteral("关闭"));
+        actExit->setText(tr("关闭"));
 		connect(actExit, SIGNAL(triggered()), this, SLOT(close()));
 		menu->addAction(actExit);
 		menu->exec(QCursor::pos());

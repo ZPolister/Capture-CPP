@@ -30,7 +30,7 @@ CaptureApplication::CaptureApplication(QWidget *parent)
     m_tray->setToolTip(tr("Dian=\nscreenshots:F1"));
 	m_tray->show();
     QIcon messageIcon(":/image/main.ico");
-    m_tray->showMessage(QStringLiteral(""), QStringLiteral("Dian-capture\n"
+    m_tray->showMessage(QStringLiteral(""), tr("Dian-capture\n"
                                                            "截屏:F1\n"
                                                            "贴图:鼠标中键"));
 
@@ -148,7 +148,7 @@ void CaptureApplication::switchLanguage(const QString &text)
 	if (text == QLatin1String("English"))
 	{
 		m_translator = new QTranslator();
-		m_translator->load(":/translation/qtt_en.qm");
+        m_translator->load(":/translation/capture_en.qm");
 		qApp->installTranslator(m_translator);
 		ui.retranslateUi(this);
 		languageTranslate();
@@ -156,7 +156,7 @@ void CaptureApplication::switchLanguage(const QString &text)
 	else
 	{
 		m_translator = new QTranslator();
-		m_translator->load(":/translation/qtt_zh.qm");
+        m_translator->load(":/translation/capture_zh.qm");
 		qApp->installTranslator(m_translator);
 		ui.retranslateUi(this);
 		languageTranslate();

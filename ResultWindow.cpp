@@ -11,8 +11,12 @@
 #include <QClipboard>
 
 ResultWindow::ResultWindow(const QString& imagePath, QWidget* parent) : QDialog(parent) {
+
+
     // 设置窗口标题
-    setWindowTitle("识别结果");
+    setWindowTitle(tr("识别结果"));
+    setWindowFlag(Qt::WindowContextHelpButtonHint, false);
+    setWindowFlag(Qt::WindowMinimizeButtonHint, true);
 
     this->imagePath = imagePath;
 
@@ -22,19 +26,19 @@ ResultWindow::ResultWindow(const QString& imagePath, QWidget* parent) : QDialog(
 
     // 创建文本显示区域
     textEdit = new QTextEdit(this);
-    QFont font("微软雅黑", 11);
-    this->setFont(font);
-    textEdit->setText("正在识别...");
+    // QFont font("微软雅黑", 11);
+    // this->setFont(font);
+    textEdit->setText(tr("正在识别..."));
     textEdit->setReadOnly(true);
     textEdit->setFixedWidth(350);
     textEdit->setFixedHeight(700);
 
 
     // 创建完成按钮
-    QPushButton *okButton = new QPushButton("完成", this);
+    QPushButton *okButton = new QPushButton(tr("完成"), this);
     connect(okButton, &QPushButton::clicked, this, &ResultWindow::accept);
     // 创建复制按钮
-    QPushButton *copyButton = new QPushButton("复制", this);
+    QPushButton *copyButton = new QPushButton(tr("复制"), this);
     connect(copyButton, &QPushButton::clicked, this, &ResultWindow::copyText);
 
 
@@ -76,7 +80,7 @@ void ResultWindow::request() {
         this->adjustSize();
     } else {
         qDebug() << "无法加载图片:" << imagePath;
-        imageLabel->setText("无法加载图片");
+        imageLabel->setText(tr("无法加载图片"));
         this->adjustSize();
     }
 
@@ -121,7 +125,7 @@ void ResultWindow::request() {
             }
         }
     } else {
-        this->textEdit->setText("识别失败");
+        this->textEdit->setText(tr("识别失败，请检查本地OCR服务是否正常"));
     }
 }
 
