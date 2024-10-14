@@ -24,6 +24,7 @@
 #include <QMessageBox>
 #include <QProgressDialog>
 #include <QTimer>
+#include "localconfig.h"
 #include "CaptureApplication.h"
 #include "ResultWindow.h"
 #include "imageview.h"
@@ -277,7 +278,7 @@ void ScreenView::uploadPicGo() {
     }
 
     // 打开了复制为md格式，构造md
-    if (copyWithMd) {
+    if (localConfig.copyWithMd) {
         imageUrl = "![](" + imageUrl + ")";
     }
     _clipboard->setText(imageUrl);
