@@ -88,7 +88,7 @@
 3. 切换到ocr目录下，加载依赖
 
    ```bash
-   cd Capture-CPP
+   cd Capture-CPP/ocr
    pip install -r requirements.txt
    ```
 
