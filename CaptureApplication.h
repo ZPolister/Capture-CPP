@@ -25,6 +25,7 @@ public:
 
 private:
 	void languageTranslate();
+    void setAutoRun(bool isStart);
 
 protected:
 	void hideEvent(QHideEvent *event)     Q_DECL_OVERRIDE;
@@ -32,6 +33,8 @@ protected:
 
 private slots:
     void on_checkBox_stateChanged(int arg1);
+
+    void on_autoRuncheckBox_stateChanged(int arg1);
 
 private:
     Ui::CaptureApplication ui;
