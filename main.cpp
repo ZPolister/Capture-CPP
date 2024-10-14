@@ -7,9 +7,8 @@ int main(int argc, char *argv[])
 {
 
     QApplication a(argc, argv);
-
-	CaptureApplication w;
+	  CaptureApplication w;
     w.switchLanguage("en");
-	QApplication::setQuitOnLastWindowClosed(false);
-	return QApplication::exec();
+	  QApplication::setQuitOnLastWindowClosed(false);
+  	return QApplication::exec();
 }

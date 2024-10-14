@@ -1,6 +1,6 @@
 ## Dian-Capture （点截）
 
-点~~（巅）~~截，一个简单的截图软件。
+点~~巅~~截，一个简单的截图软件。
 
 ![dian](docs/0.jpg)
 
@@ -59,7 +59,7 @@
 #### 更多
 
 - 兼容多显示器截图
-- i18n不完整支持
+- i18n完整支持（中文，英文）
 - 支持打开文件直接钉住
 - more...
 
@@ -88,7 +88,7 @@
 3. 切换到ocr目录下，加载依赖
 
    ```bash
-   cd Capture-CPP
+   cd Capture-CPP/ocr
    pip install -r requirements.txt
    ```
 
