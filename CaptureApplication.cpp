@@ -198,7 +198,7 @@ void CaptureApplication::on_checkBox_stateChanged(int arg1)
 void CaptureApplication::setAutoRun(bool isStart)
 {
 
-    #define AUTO_RUN_KEY	"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
+    #define AUTO_RUN_KEY	"HKEY_CURRENT_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
 
     QString application_name = QApplication::applicationName();
     QSettings *settings = new QSettings(AUTO_RUN_KEY, QSettings::NativeFormat);
