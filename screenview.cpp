@@ -415,6 +415,8 @@ void ScreenView::init()
 	_screen_height = screenGeometry.height();
 	_clipboard = QApplication::clipboard();   //获取系统剪贴板指针
 
+    setAttribute(Qt::WA_DeleteOnClose);
+
 }
 // 初始化颜色条
 void ScreenView::initColorBar()
