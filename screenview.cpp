@@ -1074,6 +1074,19 @@ void ScreenView::mousePressEvent(QMouseEvent *event)
 				_bIsDrawLineEnd = true;
 			}
         } else {
+            QPoint mousePos = event->globalPos();
+            QList<ScreenView*> unusedViewList;
+            for (auto view : views) {
+                if (!view->screen->geometry().contains(mousePos)) {
+                    unusedViewList.append(view);
+                }
+            }
+
+            for (auto view: unusedViewList) {
+                view->close();
+                views.removeAll(view);
+            }
+
             this->close();
         }
 	}
@@ -1199,8 +1212,22 @@ void ScreenView::mouseReleaseEvent(QMouseEvent *event)
 
 void ScreenView::keyPressEvent(QKeyEvent *event)
 {
-    if (event->key() == Qt::Key_Escape)
-		close();
+    if (event->key() == Qt::Key_Escape) {
+        QPoint mousePos = QCursor::pos();
+        QList<ScreenView*> unusedViewList;
+        for (auto view : views) {
+            if (!view->screen->geometry().contains(mousePos)) {
+                unusedViewList.append(view);
+            }
+        }
+
+        for (auto view: unusedViewList) {
+            view->close();
+            views.removeAll(view);
+        }
+
+        this->close();
+    }
     else if (event->key() == Qt::Key_Return)
         this->copyImage();
     else if (event->key() == Qt::Key_S)
