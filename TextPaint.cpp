@@ -4,6 +4,11 @@
 TextPaint::TextPaint(QWidget *parent)
 	: QLineEdit(parent)
 {
+
+
+    QFont font("微软雅黑", 18);
+    this->setFont(font);
+
 	connect(this, SIGNAL(textChanged(QString)), this, SLOT(slt_autoResize()));
 	connect(this, SIGNAL(editingFinished()), this, SLOT(slt_editEnd()));
 }
