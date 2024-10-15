@@ -26,8 +26,8 @@ ResultWindow::ResultWindow(const QString& imagePath, QWidget* parent) : QDialog(
 
     // 创建文本显示区域
     textEdit = new QTextEdit(this);
-    // QFont font("微软雅黑", 11);
-    // this->setFont(font);
+    QFont font("微软雅黑", 11);
+    this->setFont(font);
     textEdit->setText(tr("正在识别..."));
     textEdit->setReadOnly(true);
     textEdit->setFixedWidth(350);
