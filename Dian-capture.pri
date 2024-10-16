@@ -8,7 +8,8 @@ message("You are running qmake on a generated .pro file. This may not work!")
 
 
 HEADERS += ./qxtglobal.h \
-    $$PWD/ResultWindow.h \
+    $$PWD/localconfig.h \
+    ./ResultWindow.h \
     ./qxtglobalshortcut_p.h \
     ./ColorItem.h \
     ./LinePaint.h \
@@ -21,7 +22,8 @@ HEADERS += ./qxtglobal.h \
     ./CaptureApplication.h \
     ./struct.h
 SOURCES += ./ColorItem.cpp \
-    $$PWD/ResultWindow.cpp \
+    $$PWD/localconfig.cpp \
+    ./ResultWindow.cpp \
     ./imageview.cpp \
     ./LinePaint.cpp \
     ./main.cpp \

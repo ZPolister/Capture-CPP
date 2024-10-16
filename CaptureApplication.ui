@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>350</width>
-    <height>360</height>
+    <width>460</width>
+    <height>500</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,14 +18,14 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>350</width>
-    <height>360</height>
+    <width>460</width>
+    <height>500</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>350</width>
-    <height>360</height>
+    <width>460</width>
+    <height>500</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -45,9 +45,9 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>10</y>
-         <width>75</width>
-         <height>23</height>
+         <y>20</y>
+         <width>181</width>
+         <height>31</height>
         </rect>
        </property>
        <property name="text">
@@ -58,9 +58,9 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>40</y>
-         <width>75</width>
-         <height>23</height>
+         <y>70</y>
+         <width>181</width>
+         <height>31</height>
         </rect>
        </property>
        <property name="text">
@@ -71,13 +71,29 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>80</y>
+         <y>130</y>
          <width>321</width>
          <height>61</height>
         </rect>
        </property>
        <property name="text">
         <string>复制时使用md格式</string>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="autoRuncheckBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>190</y>
+         <width>321</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>开机自启动</string>
        </property>
        <property name="checked">
         <bool>false</bool>
@@ -92,8 +108,8 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>20</y>
-         <width>131</width>
+         <y>10</y>
+         <width>201</width>
          <height>24</height>
         </rect>
        </property>
@@ -109,6 +125,19 @@
          <widget class="QComboBox" name="comboBox_langue"/>
         </item>
        </layout>
+      </widget>
+      <widget class="QPushButton" name="pushButton_hotKey">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>70</y>
+         <width>251</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>修改截图快捷键</string>
+       </property>
       </widget>
      </widget>
     </widget>

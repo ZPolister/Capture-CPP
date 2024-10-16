@@ -4,7 +4,6 @@
 
 TEMPLATE = app
 TARGET = Dian-capture
-DESTDIR = ../Win32/Release
 QT += core sql gui widgets network
 CONFIG += release
 DEFINES += WIN64 QT_DLL QT_WIDGETS_LIB QT_SQL_LIB BUILD_QXT_GUI

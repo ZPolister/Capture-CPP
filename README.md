@@ -2,7 +2,7 @@
 
 点~~（巅）~~截，一款简单易用的截图软件，设计理念源自对用户体验的极致追求
 
-![dian](docs/0.jpg)
+![logo](docs/0.jpg)
 
 ### 功能特性
 
@@ -33,7 +33,7 @@
 
 ![image-20241013233843472](docs/4.png)
 
-\*：OCR 功能为插件式实现，需运行项目中 Python 代码，详细配置指南请参考下文的 OCR 服务配置部分
+*：本服务为插件式实现服务，需要运行项目中python代码，可见[OCR服务配置指南](https://github.com/ZPolister/Capture-CPP?tab=readme-ov-file#ocr服务运行指南)
 
 #### PicGo 系列上传接口接入\*
 
@@ -59,11 +59,17 @@
 #### 更多
 
 - 兼容多显示器截图
-- i18n 不完整支持
+- 支持开机自启动
+- 支持自定义截图快捷键
+- i18n完整支持（中文，英文）
 - 支持打开文件直接钉住
 - more...
 
-### OCR 服务运行指南
+### 常见问题
+#### 部分窗口无法截图？
+请使用**管理员权限**运行！
+
+### OCR服务运行指南
 
 #### 环境需求
 
@@ -88,7 +94,7 @@
 3. 切换到 ocr 目录下，加载依赖
 
    ```bash
-   cd Capture-CPP
+   cd Capture-CPP/ocr
    pip install -r requirements.txt
    ```
 

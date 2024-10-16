@@ -11,6 +11,7 @@
 #include <QLabel>
 
 class ResultWindow : public QDialog {
+    Q_OBJECT
 public:
     ResultWindow(const QString& imagePath, QWidget *parent = nullptr);
     ~ResultWindow();
